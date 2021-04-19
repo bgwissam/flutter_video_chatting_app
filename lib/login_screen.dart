@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:connectycube_sdk/connectycube_sdk.dart';
+import 'package:flutter_application_1/select_oponent_screen.dart';
+import 'package:flutter_application_1/utils/pref_utils.dart';
 
 import 'utils/configs.dart' as utils;
 
@@ -104,5 +106,78 @@ class _BodyLayoutState extends State<BodyLayout> {
         });
   }
 
-  _loginToCC(BuildContext context, CubeUser loggedUser) {}
+  _loginToCC(BuildContext context, CubeUser loggedUser) {
+    void _processLoginError(exception) {
+      log('Login error: $exception', TAG);
+
+      setState(() {
+        _isLoading = false;
+        _selectUserId = 0;
+      });
+
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Login Error'),
+              content: Text(
+                  'Something went wrong, please try again later or contact support'),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text('Close'))
+              ],
+            );
+          });
+    }
+
+    void _goSelectedOponentScreen(BuildContext context, CubeUser user) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SelectedOponentScreen(
+                    user: user,
+                  )));
+    }
+
+    void _loginToCubeChat(BuildContext context, CubeUser user) {
+      CubeChatConnection.instance.login(user).then((cubeUser) {
+        SharedPref.instance.init().then((pref) {
+          pref.saveNewUser(user);
+        });
+
+        setState(() {
+          _isLoading = false;
+          _selectUserId = 0;
+        });
+        _goSelectedOponentScreen(context, user);
+      }).catchError(_processLoginError);
+    }
+
+    if (_isLoading) {
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+      _selectUserId = loggedUser.id;
+    });
+
+    if (CubeSessionManager.instance.isActiveSessionValid() &&
+        CubeSessionManager.instance.activeSession.user != null) {
+      if (CubeChatConnection.instance.isAuthenticated()) {
+        setState(() {
+          _isLoading = false;
+          _selectUserId = 0;
+        });
+        _goSelectedOponentScreen(context, loggedUser);
+      } else {
+        _loginToCubeChat(context, loggedUser);
+      }
+    } else {
+      createSession(loggedUser).then((cubeSession) {
+        _loginToCubeChat(context, loggedUser);
+      }).catchError(_processLoginError);
+    }
+  }
 }
