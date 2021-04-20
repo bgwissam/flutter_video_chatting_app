@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:connectycube_flutter_call_kit/connectycube_flutter_call_kit.dart';
 import 'package:connectycube_sdk/connectycube_sdk.dart';
 import '../utils/configs.dart';
+import '../utils/constants.dart';
 
 class CallManager {
   static String TAG = "CallManager";
@@ -165,11 +166,11 @@ class CallManager {
       'message':
           "Incoming ${currentCall.callType == CallType.VIDEO_CALL ? "Video" : "Audio"} call",
       PARAM_CALL_TYPE: currentCall.callType,
-      PARAM_SEESION_ID: currentCall.sessionId,
+      PARAM_SESSION_ID: currentCall.sessionId,
       PARAM_CALLER_ID: currentCall.callerId,
       PARAM_CALLER_NAME: callerName,
       PARAM_CALL_OPPONENTS: currentCall.opponentsIds.join(','),
-      PARAM_IOS_VOID: 1,
+      PARAM_IOS_VOIP: 1,
     };
 
     params.notificationType = NotificationType.PUSH;
