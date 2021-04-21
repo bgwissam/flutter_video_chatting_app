@@ -5,6 +5,7 @@ import 'package:connectycube_flutter_call_kit/connectycube_flutter_call_kit.dart
 import 'package:connectycube_sdk/connectycube_sdk.dart';
 import '../utils/configs.dart';
 import '../utils/constants.dart';
+import 'call_kit_manager.dart';
 
 class CallManager {
   static String TAG = "CallManager";
@@ -82,7 +83,7 @@ class CallManager {
       if (_currentCall != null &&
           _currentCall.sessionId == callSession.sessionId) {
         _currentCall = null;
-        CallKitManger.instance.reportEndCallWithUUID(callSession.sessionId);
+        CallKitManager.instance.reportEndCallWithUUID(callSession.sessionId);
       }
     };
   }
@@ -150,7 +151,7 @@ class CallManager {
   void hungUp() {
     if (_currentCall != null) {
       CallKitManager.instance.endCall(_currentCall.sessionId);
-      _sendEndCallSignalForOffLiners(_currentCall);
+      _sendEndCallSignalForOffliners(_currentCall);
       _currentCall.hungUp();
     }
   }
