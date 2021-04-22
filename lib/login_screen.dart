@@ -135,8 +135,8 @@ class _BodyLayoutState extends State<BodyLayout> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => SelectedOponentScreen(
-                    user: user,
+              builder: (context) => SelectOponentScreen(
+                    currentUser: user,
                   )));
     }
 
