@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/login_screen.dart';
 import 'managers/call_manager.dart';
-
+import 'managers/push_notification_manager.dart';
 import 'utils/configs.dart' as utils;
 import 'utils/pref_utils.dart';
 
@@ -52,7 +52,7 @@ class SelectOponentScreen extends StatelessWidget {
                 onPressed: () async {
                   CallManager.instance.destro();
                   CubeChatConnection.instance.destroy();
-                  await PushNotificationManager.instance.unsubscribe();
+                  await PushNotificationsManager.instance.unsubscribe();
                   await SharedPref.instance
                       .init()
                       .then((value) => value.deleteUserData());
