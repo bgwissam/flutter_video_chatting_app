@@ -134,12 +134,10 @@ class _ConversationCallScreenState extends State<ConversationCallScreen>
                   ),
           ),
         );
-
-        return rows;
       }
-
-      return streamExpanded;
+      return rows;
     }
+    return streamExpanded;
   }
 
   @override
@@ -237,7 +235,7 @@ class _ConversationCallScreenState extends State<ConversationCallScreen>
                   elevation: 0,
                   heroTag: 'Speaker',
                   child: Icon(
-                    Icons.mic,
+                    Icons.volume_up,
                     color: _isSpeakerEnabled ? Colors.grey : Colors.white,
                   ),
                   onPressed: () => _switchSpeaker(),
@@ -251,7 +249,7 @@ class _ConversationCallScreenState extends State<ConversationCallScreen>
                   elevation: 0,
                   heroTag: 'SwitchCamera',
                   child: Icon(
-                    Icons.mic,
+                    Icons.switch_video,
                     color: _isCameraEnabled ? Colors.grey : Colors.white,
                   ),
                   onPressed: () => _switchCamera(),
@@ -265,7 +263,7 @@ class _ConversationCallScreenState extends State<ConversationCallScreen>
                   elevation: 0,
                   heroTag: 'ToggleCamera',
                   child: Icon(
-                    Icons.mic,
+                    Icons.videocam,
                     color: _isVideoEnabled() ? Colors.grey : Colors.white,
                   ),
                   onPressed: () => _toggleCamera(),
