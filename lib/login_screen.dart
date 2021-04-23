@@ -28,10 +28,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
 class BodyLayout extends StatefulWidget {
   @override
-  _BodyLayoutState createState() => _BodyLayoutState();
+  BodyState createState() {
+    return BodyState();
+  }
 }
 
-class _BodyLayoutState extends State<BodyLayout> {
+class BodyState extends State<BodyLayout> {
   static const String TAG = 'LoginScreen.BodyState';
   bool _isLoading = false;
   int _selectUserId;
@@ -107,6 +109,15 @@ class _BodyLayoutState extends State<BodyLayout> {
   }
 
   _loginToCC(BuildContext context, CubeUser loggedUser) {
+    if (_isLoading) {
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+      _selectUserId = loggedUser.id;
+    });
+
     void _processLoginError(exception) {
       log('Login error: $exception', TAG);
 
@@ -142,26 +153,16 @@ class _BodyLayoutState extends State<BodyLayout> {
 
     void _loginToCubeChat(BuildContext context, CubeUser user) {
       CubeChatConnection.instance.login(user).then((cubeUser) {
-        SharedPref.instance.init().then((pref) {
-          pref.saveNewUser(user);
+        SharedPref.instance.init().then((prefs) {
+          prefs.saveNewUser(user);
         });
-
         setState(() {
           _isLoading = false;
           _selectUserId = 0;
         });
-        _goSelectedOponentScreen(context, user);
+        _goSelectedOponentScreen(context, cubeUser);
       }).catchError(_processLoginError);
     }
-
-    if (_isLoading) {
-      return;
-    }
-
-    setState(() {
-      _isLoading = true;
-      _selectUserId = loggedUser.id;
-    });
 
     if (CubeSessionManager.instance.isActiveSessionValid() &&
         CubeSessionManager.instance.activeSession.user != null) {

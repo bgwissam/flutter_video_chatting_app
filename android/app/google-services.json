@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "768873875380",
+    "project_id": "tumble-video-chat",
+    "storage_bucket": "tumble-video-chat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:768873875380:android:8803178fd7e113f55d54e1",
+        "android_client_info": {
+          "package_name": "com.bgwissam.tumble"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "768873875380-efj9c3oul9q7d993jnc5qvas8t3n0lt5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPf6tItwfUhi1ODYRApzmEbagaVlTswg4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "768873875380-efj9c3oul9q7d993jnc5qvas8t3n0lt5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
