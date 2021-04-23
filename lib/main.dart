@@ -26,7 +26,6 @@ class _MyAppState extends State<MyApp> {
       home: Builder(
         builder: (context) {
           CallManager.instance.init(context);
-
           return LoginScreen();
         },
       ),

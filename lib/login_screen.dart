@@ -176,6 +176,7 @@ class BodyState extends State<BodyLayout> {
         _loginToCubeChat(context, loggedUser);
       }
     } else {
+      print('Session :${CubeSessionManager.instance.isActiveSessionValid()} ');
       createSession(loggedUser).then((cubeSession) {
         _loginToCubeChat(context, loggedUser);
       }).catchError(_processLoginError);
