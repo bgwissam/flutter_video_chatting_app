@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:connectycube_sdk/connectycube_sdk.dart';
-import 'package:flutter_application_1/select_oponent_screen.dart';
-import 'package:flutter_application_1/utils/pref_utils.dart';
+import 'package:tumble/select_oponent_screen.dart';
+import 'package:tumble/utils/pref_utils.dart';
 
 import 'utils/configs.dart' as utils;
 

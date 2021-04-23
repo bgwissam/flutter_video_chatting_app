@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:connectycube_sdk/connectycube_sdk.dart';
-import 'package:flutter_application_1/utils/pref_utils.dart';
+import 'package:tumble/utils/pref_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'login_screen.dart';

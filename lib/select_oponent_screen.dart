@@ -2,7 +2,7 @@ import 'package:connectycube_sdk/connectycube_calls.dart';
 import 'package:connectycube_sdk/connectycube_sdk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/login_screen.dart';
+import 'package:tumble/login_screen.dart';
 import 'managers/call_manager.dart';
 import 'managers/push_notification_manager.dart';
 import 'utils/configs.dart' as utils;

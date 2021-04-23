@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:connectycube_flutter_call_kit/connectycube_flutter_call_kit.dart';
 import 'package:connectycube_sdk/connectycube_sdk.dart';
-import 'package:flutter_application_1/conversation_screen.dart';
-import 'package:flutter_application_1/incoming_call_screen.dart';
+import 'package:tumble/conversation_screen.dart';
+import 'package:tumble/incoming_call_screen.dart';
 import '../utils/configs.dart';
 import '../utils/constants.dart';
 import 'call_kit_manager.dart';

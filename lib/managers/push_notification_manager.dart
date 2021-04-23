@@ -6,9 +6,9 @@ import 'package:connectycube_sdk/connectycube_sdk.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/managers/call_manager.dart';
-import 'package:flutter_application_1/utils/constants.dart';
-import 'package:flutter_application_1/utils/pref_utils.dart';
+import 'package:tumble/managers/call_manager.dart';
+import 'package:tumble/utils/constants.dart';
+import 'package:tumble/utils/pref_utils.dart';
 import 'package:flutter_voip_push_notification/flutter_voip_push_notification.dart';
 
 import '../utils/configs.dart' as config;
