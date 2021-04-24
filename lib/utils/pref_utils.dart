@@ -59,12 +59,18 @@ class SharedPref {
   }
 
   CubeUser getUser() {
-    if (prefs.get(prefUserLogin) == null) return null;
+    if (prefs.get(prefUserLogin) == null) {
+      print('The user is: null');
+      return null;
+    }
+
     var user = CubeUser();
     user.login = prefs.get(prefUserLogin);
     user.password = prefs.get(prefUserPsw);
     user.fullName = prefs.get(prefUserName);
     user.avatar = prefs.get(prefUserAvatar);
+
+    print('The user is: $user');
     return user;
   }
 

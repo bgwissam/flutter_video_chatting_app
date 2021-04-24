@@ -67,44 +67,90 @@ class BodyState extends State<BodyLayout> {
     });
   }
 
-  _getUserList(BuildContext context) {
-    final users = utils.users;
+  Future _getAllUsers() async {
+    List<CubeUser> users = [];
+    return await getAllUsers().then((value) {
+      users = value.items;
+      return users;
+    });
+  }
 
-    return ListView.builder(
-        itemCount: users.length,
-        itemBuilder: (context, index) {
-          return Card(
-            color: _isLoading ? Colors.white70 : Colors.white,
-            child: ListTile(
-              title: Center(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      users[index].fullName,
-                      style: TextStyle(
-                          color: _isLoading ? Colors.black26 : Colors.black87,
-                          fontSize: 18.0),
-                    ),
-                    Container(
-                      margin: EdgeInsets.all(8.0),
-                      height: 15.0,
-                      width: 15.0,
-                      child: Visibility(
-                        visible: _isLoading && users[index].id == _selectUserId,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 3,
+  _getUserList(BuildContext context) {
+    return FutureBuilder(
+        future: _getAllUsers(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              _isLoading = false;
+              return ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      color: _isLoading ? Colors.white70 : Colors.white,
+                      child: ListTile(
+                        title: Center(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                snapshot.data[index].fullName,
+                                style: TextStyle(
+                                    color: _isLoading
+                                        ? Colors.black26
+                                        : Colors.black87,
+                                    fontSize: 18.0),
+                              ),
+                              Container(
+                                margin: EdgeInsets.all(8.0),
+                                height: 15.0,
+                                width: 15.0,
+                                child: Visibility(
+                                  visible: _isLoading &&
+                                      snapshot.data[index].id == _selectUserId,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 3,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
+                        onTap: () {
+                          return _loginToCC(context, snapshot.data[index]);
+                        },
                       ),
-                    )
-                  ],
+                    );
+                  });
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  child: CircularProgressIndicator(),
                 ),
+              );
+            } else {
+              return Card(
+                child: Center(
+                  child: Container(
+                    child: Text('Initializing...'),
+                  ),
+                ),
+              );
+            }
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Container(
+                child: Text(snapshot.error),
               ),
-              onTap: () {
-                return _loginToCC(context, users[index]);
-              },
-            ),
-          );
+            );
+          } else {
+            return Center(
+              child: Container(
+                child: Text('please wait!'),
+              ),
+            );
+          }
         });
   }
 
@@ -164,6 +210,7 @@ class BodyState extends State<BodyLayout> {
       }).catchError(_processLoginError);
     }
 
+    print('Session manager: ${CubeSessionManager.instance.activeSession.user}');
     if (CubeSessionManager.instance.isActiveSessionValid() &&
         CubeSessionManager.instance.activeSession.user != null) {
       if (CubeChatConnection.instance.isAuthenticated()) {
@@ -171,15 +218,19 @@ class BodyState extends State<BodyLayout> {
           _isLoading = false;
           _selectUserId = 0;
         });
+
         _goSelectedOponentScreen(context, loggedUser);
       } else {
         _loginToCubeChat(context, loggedUser);
       }
     } else {
-      print('Session :${CubeSessionManager.instance.isActiveSessionValid()} ');
-      createSession(loggedUser).then((cubeSession) {
-        _loginToCubeChat(context, loggedUser);
-      }).catchError(_processLoginError);
+      if (!CubeSessionManager.instance.isActiveSessionValid()) {
+        createSession(loggedUser).then((cubeSession) {
+          _loginToCubeChat(context, loggedUser);
+        }).catchError(_processLoginError);
+      } else {
+        log('[LoginScree] no active user was found: ', TAG);
+      }
     }
   }
 }
