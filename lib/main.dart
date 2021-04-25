@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:connectycube_sdk/connectycube_sdk.dart';
@@ -37,14 +39,35 @@ class _MyAppState extends State<MyApp> {
     super.initState();
 
     Firebase.initializeApp();
+    // saveCurrentUsers();
     initConnectyCube();
   }
+}
+
+saveCurrentUsers() async {
+  Completer completer = Completer();
+
+  config.Configs users = new config.Configs();
+  Future<dynamic> result = users.getUsers();
+
+  if (result != null) {
+    print('future is not null: $result');
+    result.then((value) {
+      print('the value of Future is: $value');
+    });
+    completer.complete();
+  } else {
+    result = await users.getUsers();
+    print('The users obtained: $result');
+  }
+
+  return result;
 }
 
 initConnectyCube() {
   init(config.APP_ID, config.AUTH_KEY, config.AUTH_SECRET,
       onSessionRestore: () {
-    return SharedPref.instance.init().then((pref) {
+    return SharedPref.instance.init().then((pref) async {
       return createSession(pref.getUser());
     });
   });

@@ -188,7 +188,7 @@ class BodyState extends State<BodyLayout> {
           });
     }
 
-    void _goSelectedOponentScreen(BuildContext context, CubeUser user) {
+    void _goSelectedOponentScreen(BuildContext context, CubeUser user) async {
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -210,7 +210,6 @@ class BodyState extends State<BodyLayout> {
       }).catchError(_processLoginError);
     }
 
-    print('Session manager: ${CubeSessionManager.instance.activeSession.user}');
     if (CubeSessionManager.instance.isActiveSessionValid() &&
         CubeSessionManager.instance.activeSession.user != null) {
       if (CubeChatConnection.instance.isAuthenticated()) {
@@ -229,6 +228,8 @@ class BodyState extends State<BodyLayout> {
           _loginToCubeChat(context, loggedUser);
         }).catchError(_processLoginError);
       } else {
+        print('Logged user: $loggedUser');
+        _loginToCubeChat(context, loggedUser);
         log('[LoginScree] no active user was found: ', TAG);
       }
     }

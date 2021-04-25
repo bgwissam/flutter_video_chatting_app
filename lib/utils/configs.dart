@@ -5,5 +5,14 @@ const String AUTH_KEY = 'cxHJ2kEF6xAJghQ';
 const String AUTH_SECRET = '6tx2u69RYROg5ww';
 const String ACCOUNT_ID = 'QN1vmPsxXqW5HMZipzLp';
 const String DEFAULT_PASS = 'SallyHakim@90';
-
 List<CubeUser> users = [];
+
+class Configs {
+  getUsers() async {
+    return await getAllUsers().then((value) {
+      users = value.items;
+      print('Saved users 1: $users');
+      return users;
+    });
+  }
+}

@@ -59,6 +59,7 @@ class SharedPref {
   }
 
   CubeUser getUser() {
+    print(prefs.getKeys());
     if (prefs.get(prefUserLogin) == null) {
       print('The user is: null');
       return null;
