@@ -50,7 +50,7 @@ class SelectOponentScreen extends StatelessWidget {
             ),
             TextButton(
                 onPressed: () async {
-                  CallManager.instance.destro();
+                  CallManager.instance.destroy();
                   CubeChatConnection.instance.destroy();
                   await PushNotificationsManager.instance.unsubscribe();
                   await SharedPref.instance

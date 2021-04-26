@@ -47,7 +47,7 @@ class CallManager {
     _initCallKit();
   }
 
-  destro() {
+  destroy() {
     P2PClient.instance.destroy();
     _callMap.clear();
   }
@@ -237,6 +237,7 @@ class CallManager {
   void _initChatConnectionStateListener() {
     CubeChatConnection.instance.connectionStateStream.listen(
       (state) {
+        print('session: $TAG');
         if (CubeChatConnectionState.Ready == state) {
           _initCalls();
         }
