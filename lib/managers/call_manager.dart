@@ -238,6 +238,7 @@ class CallManager {
     CubeChatConnection.instance.connectionStateStream.listen(
       (state) {
         print('session: $TAG');
+        print('session: $state');
         if (CubeChatConnectionState.Ready == state) {
           _initCalls();
         }

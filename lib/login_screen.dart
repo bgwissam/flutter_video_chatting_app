@@ -62,26 +62,21 @@ class BodyState extends State<BodyLayout> {
 
     SharedPref.instance.init().then((pref) {
       CubeUser loggedUser = pref.getUser();
-      print('Logged user: $loggedUser');
+      print('Logged user 1: $loggedUser');
       if (loggedUser != null) {
-        _loginToCC(context, loggedUser);
-      } else {
-        // init(utils.APP_ID, utils.AUTH_KEY, utils.AUTH_SECRET,
-        //     onSessionRestore: () {
-        //   return SharedPref.instance.init().then((pref) async {
-        //     await _getAllUsers();
-        //     users.forEach((element) => pref.saveNewUser(element));
-        //     print('Current users: $users');
-        //     return createSession(pref.getUser());
-        //   });
-        // });
-      }
+        createSession(loggedUser).then((cubeSession) {
+          _loginToCC(context, loggedUser);
+        }).catchError((exception) {
+          print('The expetion is: $exception');
+        });
+      } else {}
     });
   }
 
   Future _getAllUsers() async {
     return await getAllUsers().then((value) {
       users = value.items;
+
       return users;
     });
   }
@@ -210,6 +205,7 @@ class BodyState extends State<BodyLayout> {
 
     void _loginToCubeChat(BuildContext context, CubeUser user) {
       CubeChatConnection.instance.login(user).then((cubeUser) {
+        print('we are here LoginToCubeChat: $cubeUser');
         SharedPref.instance.init().then((prefs) {
           prefs.saveNewUser(user);
         });
@@ -228,19 +224,19 @@ class BodyState extends State<BodyLayout> {
           _isLoading = false;
           _selectUserId = 0;
         });
-
+        print('we are here ValidSession');
         _goSelectedOponentScreen(context, loggedUser);
       } else {
         _loginToCubeChat(context, loggedUser);
       }
     } else {
       if (!CubeSessionManager.instance.isActiveSessionValid()) {
+        print('we are here createSession: $loggedUser');
         createSession(loggedUser).then((cubeSession) {
-          print('current session: $cubeSession');
           _loginToCubeChat(context, loggedUser);
         }).catchError(_processLoginError);
       } else {
-        print('Logged user: $loggedUser');
+        print('we are here: $loggedUser');
         _loginToCubeChat(context, loggedUser);
         log('[LoginScreen] no active user was found: ', TAG);
       }

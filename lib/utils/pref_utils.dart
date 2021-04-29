@@ -22,6 +22,7 @@ class SharedPref {
 
   Future<SharedPref> init() async {
     Completer completer = Completer<SharedPref>();
+
     if (inited) {
       completer.complete(_instance);
     } else {
@@ -29,6 +30,7 @@ class SharedPref {
       inited = true;
       completer.complete(_instance);
     }
+
     return completer.future;
   }
 
@@ -38,6 +40,7 @@ class SharedPref {
     prefs.setString(prefUserPsw, cubeUser.password);
     prefs.setString(prefUserName, cubeUser.fullName);
     prefs.setInt(prefUserId, cubeUser.id);
+
     if (cubeUser.avatar != null) {
       prefs.setString(prefUserAvatar, cubeUser.avatar);
     }
@@ -59,7 +62,8 @@ class SharedPref {
   }
 
   CubeUser getUser() {
-    print(prefs.getKeys());
+    //prefs.clear();
+    print('The pref keys: ${prefs.getString('pref_user_login')}');
     if (prefs.get(prefUserLogin) == null) {
       print('The user is: null');
       return null;
